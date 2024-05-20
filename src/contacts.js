@@ -8,11 +8,11 @@ import crypto from "node:crypto";
 const contactsPath = path.resolve("db", "contacts.json");
 async function readContacts() {
     const data = await fs.readFile(contactsPath, { encoding: "utf-8" })
-    return data;
+    return JSON.parse(data);
 }
 
 async function writeContacts(contacts) {
-    await fs.writeFile(contactsPath, contacts)
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, undefined, 2))
 }
 
 
@@ -54,4 +54,12 @@ async function addContact(name, email, phone) {
     contacts.push(newContact);
     await writeContacts(contacts)
     return newContact;
+}
+
+
+export default {
+    listContacts,
+    getContactById,
+    removeContact,
+    addContact
 }
